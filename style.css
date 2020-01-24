@@ -1,0 +1,31 @@
+body {
+    background-color: skyblue;
+}
+
+#board {
+    display: flex;
+}
+
+.slot {
+    /* background-color: blue; */
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.hole {
+    /* background-color: ghostwhite; */
+    height: 80px;
+    width: 80px;
+    transform: translate(-30px, -30px);
+    border: 40px solid blue;
+    border-radius: 50%;
+}
+
+.player1 {
+    background-color: red;
+}
+
+.player2 {
+    background-color: yellow;
+}
