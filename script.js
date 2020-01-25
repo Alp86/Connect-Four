@@ -7,6 +7,11 @@
 
     var rowIndex;
 
+    var colSelector;
+
+    var $cursor = $("#cursor");
+    $cursor.addClass(currentplayer);
+
 
     $columns.on("click", function(e) {
 
@@ -44,18 +49,16 @@
 
         // check for victory
         if (checkForVictory($slotsInCol, "col")) {
-            // this means there is a victory...
-            // put a
-            alert(currentplayer + " won!");
+            console.log(currentplayer + " won!");
             location.reload();
         } else if (checkForVictory($slotsInRow, "row")) {
-            alert(currentplayer + " won!");
+            console.log(currentplayer + " won!");
             location.reload();
         } else if (checkForVictory($diagonalPlus, "diaPlus")) {
-            alert(currentplayer + " won!");
+            console.log(currentplayer + " won!");
             location.reload();
         } else if (checkForVictory($diagonalMinus, "diaMinus")) {
-            alert(currentplayer + " won!");
+            console.log(currentplayer + " won!");
             location.reload();
         } else {
             switchPlayer();
@@ -121,20 +124,66 @@
     function switchPlayer() {
 
         if (currentplayer === "player1") {
+            $cursor.removeClass(currentplayer);
+
             currentplayer = "player2";
+
+            $cursor.addClass(currentplayer);
+
+            $(colSelector).css({
+                borderTopColor: "yellow"
+            });
+
         } else {
+            $cursor.removeClass(currentplayer);
+
             currentplayer = "player1";
+
+            $cursor.addClass(currentplayer);
+
+            $(colSelector).css({
+                borderTopColor: "red"
+            });
         }
     }
 
+
+    // adding active column indicator
+    $columns.on("mouseenter", function(e) {
+
+        // $(".active").removeClass("active");
+        colSelector = ".col" + $(e.currentTarget).index();
+
+        $(colSelector).css({
+            borderTopColor: (currentplayer=="player1") ? "red" : "yellow"
+        });
+
+        $(colSelector).addClass("active");
+
+    }).on("mouseleave", function() {
+
+        $(".active").removeClass("active");
+    });
+
+
+    $(document).on("mousemove", function(e) {
+
+
+        $cursor.css({
+            left: e.clientX,
+            top: e.clientY
+        });
+
+        // console.log(e.clientX, e.clientY);
+        // console.log($cursor.offset().left, $cursor.offset().top);
+        // console.log($cursor.offset().left-e.clientX, $cursor.offset().top-e.clientY);
+    }).on("keydown", function(e) {
+
+        // $active = $(".active");
+
+
+
+    });
+
+
 })();
-
-/*
-
-create empty jquery object:
-    var myJqueryObj = $();
-
-add elements to it:
-    myJqueryObj.add("some element");
-
-*/

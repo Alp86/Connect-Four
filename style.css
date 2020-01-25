@@ -1,9 +1,21 @@
 body {
-    background-color: skyblue;
+    background-color: wheat;
+    /* height: 100vh; */
+    /* width: 100vw; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 100px;
 }
 
 #board {
+    /* position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%); */
     display: flex;
+    cursor: pointer;
 }
 
 .slot {
@@ -28,4 +40,67 @@ body {
 
 .player2 {
     background-color: yellow;
+}
+
+#indicator-row {
+    /* position: absolute;
+    top: 130px;
+    left: 50%;
+    transform: translateX(-50%); */
+    display: flex;
+    flex-flow: row;
+    margin-bottom: 10px;
+}
+
+.indicator {
+    width: 0;
+    height: 0;
+    margin-left: 25px;
+    margin-right: 25px;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 50px solid transparent;
+    visibility: hidden;
+}
+
+.indicator.active {
+    visibility: visible;
+}
+
+
+
+#cursor {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+
+/* #popUp::before {
+    content: "";
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: black;
+    opacity: .8;
+}
+
+#popUp-box {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    width: 30%;
+    height: 20%;
+    background-color: white;
+    border-radius: 30px; */
+
 }
