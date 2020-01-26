@@ -103,6 +103,7 @@
             }
 
             $columns.off("click", addSlot);
+            $(document).off("keydown", keyboardInput);
 
             setTimeout(function(){
                 // alert(message);
@@ -110,6 +111,13 @@
                 resetGame();
             }, 1500);
 
+        } else if ( $(".slot").length == $(".slot.player1").length + $(".slot.player2").length) {
+            $("#winner").html("<div>Draw!</div>");
+            $columns.off("click", addSlot);
+            $(document).off("keydown", keyboardInput);
+            setTimeout(function(){
+                resetGame();
+            }, 1500);
         } else {
             switchPlayer();
         }
@@ -186,7 +194,9 @@
             top: e.pageY
         });
 
-    }).on("keydown", function(e) {
+    }).on("keydown", keyboardInput);
+
+    function keyboardInput(e) {
 
         var keyLeft = e.keyCode == 37;
         var keyRight = e.keyCode == 39;
@@ -273,8 +283,7 @@
             checkForWinner($slotsInCol, $slotsInRow, $diagonalPlus, $diagonalMinus);
 
         }
-
-    });
+    }
 
 
     function resetGame() {
@@ -293,9 +302,11 @@
         $(colSelector).addClass("p1");
         $cursor.removeClass(currentplayer);
         $columns.on("click", addSlot);
+        $(document).on("keydown", keyboardInput);
         $("#winner").html("");
         currentplayer = "player1";
         $cursor.addClass(currentplayer);
+
 
     }
 
