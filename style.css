@@ -4,14 +4,13 @@ body {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 #background {
     position: absolute;
     z-index: -100;
     width: 100vw;
-    height: 100vh;
     top: 0;
     bottom: 0;
     left: 0;
@@ -25,16 +24,16 @@ body {
     justify-content: space-around;
     background-color: black;
     /* border: solid white 2px; */
-    border-radius: 40px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    border-radius: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #winner {
     border-radius: 20px;
     width: 200px;
     height: 100px;
-    padding: 10px 0;
+    padding: 5px 0;
     border: solid white 2px;
     display: flex;
     justify-content: center;
@@ -42,7 +41,7 @@ body {
 }
 
 #winner div {
-    font-size: 50px;
+    font-size: 40px;
     font-family: sans-serif;
     font-weight: bold;
     color: white;
@@ -67,17 +66,17 @@ body {
     border-radius: 20px;
     width: 200px;
     height: 100px;
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .player-name {
-    font-size: 50px;
+    font-size: 40px;
     font-family: sans-serif;
     font-weight: bold;
 }
 
 .player-score {
-    font-size: 50px;
+    font-size: 40px;
     font-family: sans-serif;
     font-weight: bold;
 }
