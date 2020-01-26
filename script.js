@@ -5,8 +5,9 @@
     var rowIndex;
     var colSelector;
     var $cursor = $("#cursor");
-    var $winner = $("#winner");
     var $winningFour = [];
+    var p1Score = 0;
+    var p2Score = 0;
 
     $cursor.addClass(currentplayer);
 
@@ -51,47 +52,6 @@
 
     }
 
-    // $columns.on("click", function click(e) {
-    //
-    //     var $col = $(e.currentTarget);
-    //
-    //     var $slotsInCol = $col.children();
-    //
-    //     for (var i = $slotsInCol.length-1; i >= 0; i--) {
-    //         if (
-    //             !$slotsInCol.eq(i).hasClass("player1") &&
-    //             !$slotsInCol.eq(i).hasClass("player2"))
-    //         {
-    //             $slotsInCol.eq(i).addClass(currentplayer);
-    //             break;
-    //         }
-    //     }
-    //
-    //     // console.log("i: ", i);
-    //     if (i === -1) {
-    //         i = 0;
-    //         return;
-    //     }
-    //     rowIndex = i;
-    //     colIndex = $(e.currentTarget).index();
-    //
-    //     console.log("i is: ", i);
-    //
-    //     // create an array out of the slots in the row in which the last chip was placed
-    //     // i = row index;
-    //     var rowElements = ".row" + i;
-    //     var $slotsInRow = $(rowElements);
-    //     var diagonal = createDiagonal();
-    //     var $diagonalPlus = diagonal[0];
-    //     var $diagonalMinus = diagonal[1];
-    //
-    //     // check for victory
-    //     checkForWinner($slotsInCol, $slotsInRow, $diagonalPlus, $diagonalMinus);
-    //
-    // });
-
-    // console.log("diagonalPlus: ", $diagonalPlus);
-    // console.log($diagonalMinus);
     function createDiagonal() {
 
         var $diagonalPlus = $();
@@ -125,23 +85,29 @@
 
     function checkForWinner(col, row, diaPlus, diaNeg) {
 
-        var message;
-        var method;
-
         if (checkForVictory(col) || checkForVictory(row) || checkForVictory(diaPlus) || checkForVictory(diaNeg)) {
 
-            message = currentplayer + " wins!\n\nRestart game?";
+            if (currentplayer == "player1") {
+                p1Score++;
+                $("#winner").html("<div>P1<br>wins!</div>");
+                $(".one .player-score").html(p1Score);
+            } else {
+                p2Score++;
+                $("#winner").html("<div>P2<br>wins!</div>");
+                $(".two .player-score").html(p2Score);
+            }
 
             for (var i = 0; i < $winningFour.length; i++) {
-                $winningFour[i].addClass("won")
+                $winningFour[i].addClass("won");
             }
 
             $columns.off("click", addSlot);
 
-            // setTimeout(function(){
-            //     alert(message);
-            //     location.reload();
-            // }, 1500);
+            setTimeout(function(){
+                // alert(message);
+                // location.reload();
+                resetGame();
+            }, 1500);
 
         } else {
             switchPlayer();
@@ -237,6 +203,28 @@
 
     });
 
+
+    function resetGame() {
+
+        // reset classes
+        for (var  c = 0; c < $columns.length; c++) {
+            for (var r = 0; r < $columns.eq(c).children().length; r++) {
+
+                $columns.eq(c).children().eq(r).removeClass("player1 player2 won");
+
+            }
+        }
+
+        $cursor.removeClass(currentplayer);
+        $columns.on("click", addSlot);
+        $("#winner").html("");
+        currentplayer = "player1";
+        $cursor.addClass(currentplayer);
+
+    }
+
+
+
     // winner announcement animation
     // var curr = 0;
     // var frames = 45;
@@ -265,33 +253,3 @@
 
 
 })();
-
-
-
-
-
-/*
-The board has six rows and seven columns  -- done
-
-Two players take turns selecting a column to drop their checker into -- done
-
-When a player wins, a message appears to announce the victory -- have to implement message box
-
-After a player wins, it should be possible to reset the game and play again -- currently automatically resets
-
-The gameplay should involve at least one animation (for example, the checkers could fall into their slot rather than just appear instantaneously)
--- still to do
-
-Bonus features
-Here are several ideas to make the game more interesting if you have the time
-
-After a player wins, visually indicate which four pieces on the board satisfied the victory condition
-
-Allow players to drag their pieces across the screen and drop them into their desired column using their mouse (or finger on touch screens)
-
-Allow players to play using only their keyboard
-
-Allow players at the beginning of the game to increase the number of columns on the board and the number of connected pieces that are required to win
-
-Allow a single player to play against the computer
-*/
