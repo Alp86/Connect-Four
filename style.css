@@ -1,7 +1,5 @@
 body {
-    background-color: wheat;
-    /* height: 100vh; */
-    /* width: 100vw; */
+    background-color: floralwhite;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -10,10 +8,7 @@ body {
 }
 
 #board {
-    /* position: absolute;
-    top: 200px;
-    left: 50%;
-    transform: translateX(-50%); */
+
     display: flex;
     cursor: pointer;
 }
@@ -25,21 +20,33 @@ body {
     overflow: hidden;
 }
 
+.slot.won {
+    animation: blinkingBackground 2s infinite;
+}
+
+@keyframes blinkingBackground {
+    0%		{ background-color: lime;}
+    25%		{ background-color: deeppink;}
+    50%		{ background-color: lime;}
+    75%		{ background-color: deeppink;}
+    100%	{ background-color: lime;}
+}
+
 .hole {
     /* background-color: ghostwhite; */
     height: 80px;
     width: 80px;
     transform: translate(-30px, -30px);
-    border: 40px solid blue;
+    border: 40px solid darkblue;
     border-radius: 50%;
 }
 
 .player1 {
-    background-color: red;
+    background-color: firebrick;
 }
 
 .player2 {
-    background-color: yellow;
+    background-color: gold;
 }
 
 #indicator-row {
@@ -63,9 +70,19 @@ body {
     visibility: hidden;
 }
 
-.indicator.active {
+.indicator.p1 {
+    border-top-color: firebrick;
     visibility: visible;
 }
+
+.indicator.p2 {
+    border-top-color: gold;
+    visibility: visible;
+}
+
+/* .indicator.active {
+    visibility: visible;
+} */
 
 
 
@@ -78,6 +95,22 @@ body {
     border-radius: 50%;
 }
 
+/* #winner {
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#winner div {
+    font-size: 0px;
+    font-weight: bold;
+    color: white;
+    text-decoration: underline;
+    -webkit-text-stroke: tomato 1px;
+} */
 
 /* #popUp::before {
     content: "";
