@@ -1,5 +1,5 @@
 body {
-    background-color: floralwhite;
+    /* background-color: floralwhite; */
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -7,7 +7,16 @@ body {
     padding-top: 20px;
 }
 
-
+#background {
+    position: absolute;
+    z-index: -100;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 
 #scoreboard {
     width: 700px;
@@ -15,7 +24,7 @@ body {
     flex-direction: row;
     justify-content: space-around;
     background-color: black;
-    border: solid white 2px;
+    /* border: solid white 2px; */
     border-radius: 40px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -25,6 +34,7 @@ body {
     border-radius: 20px;
     width: 200px;
     height: 100px;
+    padding: 10px 0;
     border: solid white 2px;
     display: flex;
     justify-content: center;
@@ -57,6 +67,7 @@ body {
     border-radius: 20px;
     width: 200px;
     height: 100px;
+    padding: 10px 0;
 }
 
 .player-name {
@@ -80,10 +91,10 @@ body {
 }
 
 
-
 #board {
     display: flex;
     cursor: pointer;
+    /* border: solid white 2px; */
 }
 
 .slot {
@@ -108,17 +119,24 @@ body {
     height: 80px;
     width: 80px;
     transform: translate(-30px, -30px);
-    border: 40px solid darkblue;
+    border: 40px solid blue;
     border-radius: 50%;
 }
 
 .player1 {
     background-color: firebrick;
+    animation: slideIn 1s;
 }
 
 .player2 {
     background-color: gold;
+    animation: slideIn 1s;
 }
+
+/* @keyframes slideIn {
+
+} */
+
 
 #indicator-row {
     display: flex;
@@ -155,47 +173,4 @@ body {
     height: 80px;
     width: 80px;
     border-radius: 50%;
-}
-
-/* #winner {
-    position: absolute;
-    z-index: 100;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-#winner div {
-    font-size: 0px;
-    font-weight: bold;
-    color: white;
-    text-decoration: underline;
-    -webkit-text-stroke: tomato 1px;
-} */
-
-/* #popUp::before {
-    content: "";
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background-color: black;
-    opacity: .8;
-}
-
-#popUp-box {
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 101;
-    width: 30%;
-    height: 20%;
-    background-color: white;
-    border-radius: 30px; */
-
 }

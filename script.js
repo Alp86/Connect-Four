@@ -4,10 +4,12 @@
     var colIndex;
     var rowIndex;
     var colSelector;
+    var $activeCol;
     var $cursor = $("#cursor");
     var $winningFour = [];
     var p1Score = 0;
     var p2Score = 0;
+
 
     $cursor.addClass(currentplayer);
 
@@ -37,7 +39,6 @@
         rowIndex = i;
         colIndex = $(e.currentTarget).index();
 
-        console.log("i is: ", i);
 
         // create an array out of the slots in the row in which the last chip was placed
         // i = row index;
@@ -114,7 +115,7 @@
         }
     }
 
-    function checkForVictory($slots, rc) {
+    function checkForVictory($slots) {
         // we will do some logic to check for victory
         var count = 0;
 
@@ -133,7 +134,7 @@
             }
         }
 
-        console.log(currentplayer, rc, " count is: ", count);
+        console.log(currentplayer, " count is: ", count);
     }
 
     function switchPlayer() {
@@ -145,11 +146,8 @@
 
             $cursor.addClass(currentplayer);
 
+            $(colSelector).removeClass("p1");
             $(colSelector).addClass("p2");
-
-            // $(colSelector).css({
-            //     borderTopColor: "yellow"
-            // });
 
         } else {
             $cursor.removeClass(currentplayer);
@@ -158,11 +156,9 @@
 
             $cursor.addClass(currentplayer);
 
-            $(colSelector).addClass("p2");
+            $(colSelector).removeClass("p2");
+            $(colSelector).addClass("p1");
 
-            // $(colSelector).css({
-            //     borderTopColor: "red"
-            // });
         }
     }
 
@@ -170,12 +166,8 @@
     // adding active column indicator
     $columns.on("mouseenter", function(e) {
 
-        // $(".active").removeClass("active");
+        $activeCol = $(e.currentTarget);
         colSelector = ".col" + $(e.currentTarget).index();
-
-        // $(colSelector).css({
-        //     borderTopColor: (currentplayer=="player1") ? "red" : "yellow"
-        // });
 
         $(colSelector).addClass( (currentplayer=="player1") ? "p1" : "p2" );
 
@@ -183,23 +175,104 @@
 
         $(".p1").removeClass("p1");
         $(".p2").removeClass("p2");
+        $activeCol = undefined;
     });
 
 
     $(document).on("mousemove", function(e) {
 
-
         $cursor.css({
-            left: e.clientX,
-            top: e.clientY
+            left: e.pageX,
+            top: e.pageY
         });
 
-        // console.log(e.clientX, e.clientY);
-        // console.log($cursor.offset().left, $cursor.offset().top);
-        // console.log($cursor.offset().left-e.clientX, $cursor.offset().top-e.clientY);
     }).on("keydown", function(e) {
 
-        // $active = $(".active");
+        var keyLeft = e.keyCode == 37;
+        var keyRight = e.keyCode == 39;
+        var spacebar = e.keyCode == 32;
+
+
+        var colIsSelected = $activeCol != undefined && $activeCol.index() != -1;
+
+        if (keyLeft) {
+
+            if (!colIsSelected || ($activeCol.index() == -1)) {
+                $activeCol = $columns.eq($columns.length-1);
+                console.log($activeCol);
+                colSelector = ".col"+ $activeCol.index();
+                console.log("no col is selected. changing to", colSelector);
+
+            } else {
+                $(".p1").removeClass("p1");
+                $(".p2").removeClass("p2");
+
+
+                $activeCol = $activeCol.prev();
+                colSelector = ".col"+ $activeCol.index();
+                console.log(colSelector);
+            }
+
+            $(colSelector).addClass( (currentplayer=="player1") ? "p1" : "p2" );
+        }
+
+        if (keyRight) {
+
+            if (!colIsSelected || ($activeCol.index() == -1)) {
+                $activeCol = $columns.eq(0);
+                console.log($activeCol);
+                colSelector = ".col"+ $activeCol.index();
+                console.log("no column is selected. changing to", colSelector);
+
+            } else {
+                $(".p1").removeClass("p1");
+                $(".p2").removeClass("p2");
+
+                $activeCol = $activeCol.next();
+                colSelector = ".col"+ $activeCol.index();
+                console.log(colSelector);
+            }
+
+            $(colSelector).addClass( (currentplayer=="player1") ? "p1" : "p2" );
+        }
+
+        if (spacebar && colIsSelected) {
+
+
+
+            var $slotsInCol = $activeCol.children();
+
+            for (var i = $slotsInCol.length-1; i >= 0; i--) {
+                if (
+                    !$slotsInCol.eq(i).hasClass("player1") &&
+                    !$slotsInCol.eq(i).hasClass("player2"))
+                {
+                    $slotsInCol.eq(i).addClass(currentplayer);
+                    break;
+                }
+            }
+
+            // console.log("i: ", i);
+            if (i === -1) {
+                i = 0;
+                return;
+            }
+            rowIndex = i;
+            colIndex = $activeCol.index();
+
+
+            // create an array out of the slots in the row in which the last chip was placed
+            // i = row index;
+            var rowElements = ".row" + i;
+            var $slotsInRow = $(rowElements);
+            var diagonal = createDiagonal();
+            var $diagonalPlus = diagonal[0];
+            var $diagonalMinus = diagonal[1];
+
+            // check for victory
+            checkForWinner($slotsInCol, $slotsInRow, $diagonalPlus, $diagonalMinus);
+
+        }
 
     });
 
@@ -215,6 +288,9 @@
             }
         }
 
+
+        $(colSelector).removeClass("p1 p2");
+        $(colSelector).addClass("p1");
         $cursor.removeClass(currentplayer);
         $columns.on("click", addSlot);
         $("#winner").html("");
@@ -223,33 +299,6 @@
 
     }
 
-
-
-    // winner announcement animation
-    // var curr = 0;
-    // var frames = 45;
-    // var fontsize = 200;
-    // var rotation = 360;
-    //
-    // function winnerAnim() {
-    //
-    //
-    //     var winnerText = "<div>" + currentplayer.toUpperCase() + " WINS!</div>";
-    //
-    //     $winner.html(winnerText);
-    //
-    //     var $winnerDiv = $("#winner div");
-    //
-    //     if (curr <= frames) {
-    //
-    //         $winnerDiv.css({
-    //             fontSize: curr * fontsize/frames + "px",
-    //             transform: "rotate(" + curr * rotation/frames + "deg)"
-    //         });
-    //         curr++;
-    //         requestAnimationFrame(winnerAnim);
-    //     }
-    // }
 
 
 })();
